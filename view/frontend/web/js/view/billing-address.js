@@ -46,6 +46,7 @@ define(
                  * @returns {String}
                  */
                 getAddressInline: function () {
+                    // AAI CHANGE: be more verbose in the dropdown option (old value: 'New Address')
                     return $t('New Billing Address');
                 },
                 customerAddressId: null
@@ -56,7 +57,6 @@ define(
             });
 
         addressOptions.push(newAddressOption);
-        console.log('addressOptions: ', addressOptions);
 
         return Component.extend({
             defaults: {
@@ -72,7 +72,6 @@ define(
             initialize: function () {
                 this._super();
                 quote.paymentMethod.subscribe(function () {
-                    console.log('1');
                     checkoutDataResolver.resolveBillingAddress();
                 }, this);
             },
@@ -83,11 +82,13 @@ define(
             initObservable: function () {
                 this._super()
                     .observe({
+                        // AAI CHANGE: select the 'New Address' option from the drop down
                         // selectedAddress: null,
                         selectedAddress: addressOptions[addressOptions.length - 1],
                         isAddressDetailsVisible: quote.billingAddress() != null,
+                        // AAI CHANGE: force the new billing address form to be displayed by default
                         // isAddressFormVisible: !customer.isLoggedIn() || addressOptions.length == 1,
-                        isAddressFormVisible: true, //customer.isLoggedIn() || addressOptions.length == 1,
+                        isAddressFormVisible: true,
                         isAddressSameAsShipping: false,
                         saveInAddressBook: 1
                     });
