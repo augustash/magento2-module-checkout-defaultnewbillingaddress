@@ -1,0 +1,24 @@
+{
+    "name": "augustash/module-checkout-defaultnewbillingaddress",
+    "description": "Override Magento Knockout JS templates/functionality to have the new billing address form display instead of the address select box",
+    "type": "magento2-module",
+    "license": [
+        "proprietary"
+    ],
+    "authors":[
+        {
+            "name":"Josh Johnson",
+            "email":"josh@augustash.com"
+        }
+    ],
+    "require": {
+    },
+    "autoload": {
+        "files": [
+            "registration.php"
+        ],
+        "psr-4": {
+            "Augustash\\CheckoutDefaultNewBillingAddress\\": ""
+        }
+    }
+}
