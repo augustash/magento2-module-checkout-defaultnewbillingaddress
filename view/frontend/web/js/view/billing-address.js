@@ -80,10 +80,25 @@ define(
              * @return {exports.initObservable}
              */
             initObservable: function () {
-                this._super()
+                // AAI CHANGE: The braintree vault object is added to window.checkoutConfig.payment
+                var config = window.checkoutConfig.payment;
+
+                // Vault is always set - when empty it is an array, when populated is it an object
+                if (config.vault.constructor === Object) {
+                    this._super()
+                    .observe({
+                        selectedAddress: null,
+                        isAddressDetailsVisible: quote.billingAddress() != null,
+                        // AAI CHANGE: force the new billing address form to be displayed by default
+                        // isAddressFormVisible: !customer.isLoggedIn() || addressOptions.length == 1,
+                        isAddressFormVisible: true,
+                        isAddressSameAsShipping: true,
+                        saveInAddressBook: 1
+                    });
+                } else {
+                    this._super()
                     .observe({
                         // AAI CHANGE: select the 'New Address' option from the drop down
-                        // selectedAddress: null,
                         selectedAddress: addressOptions[addressOptions.length - 1],
                         isAddressDetailsVisible: quote.billingAddress() != null,
                         // AAI CHANGE: force the new billing address form to be displayed by default
@@ -92,6 +107,7 @@ define(
                         isAddressSameAsShipping: false,
                         saveInAddressBook: 1
                     });
+                }
 
                 quote.billingAddress.subscribe(function (newAddress) {
                     if (quote.isVirtual()) {
